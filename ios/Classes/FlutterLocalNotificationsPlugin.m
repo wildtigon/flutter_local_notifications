@@ -485,7 +485,9 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler NS_AVAILABLE_IOS(10.0) {
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
         NSDictionary *dic = @{PAYLOAD: response.notification.request.content.userInfo};
-        NSString *payload = [NSString stringWithFormat:@"%@", dic];
+        NSError * err;
+        NSData * jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&err];
+        NSString * payload = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if(initialized) {
             [self handleSelectNotification:payload];
         } else {
