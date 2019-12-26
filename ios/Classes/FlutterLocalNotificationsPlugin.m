@@ -484,7 +484,8 @@ typedef NS_ENUM(NSInteger, RepeatInterval) {
 didReceiveNotificationResponse:(UNNotificationResponse *)response
          withCompletionHandler:(void (^)(void))completionHandler NS_AVAILABLE_IOS(10.0) {
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
-        NSString *payload = (NSString *) response.notification.request.content.userInfo[PAYLOAD];
+        NSDictionary *dic = @{PAYLOAD: response.notification.request.content.userInfo};
+        NSString *payload = [NSString stringWithFormat:@"%@", dic];
         if(initialized) {
             [self handleSelectNotification:payload];
         } else {
